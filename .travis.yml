@@ -9,6 +9,23 @@ before_installed: # commands executed before our tests are ran
 script: # commands that need to be executed to actually run our test suite
   -  docker run -e CI=true diegoleoro/d-rct npm run test
 
+deploy:
+  provider: elasticbeanstalk # travis ci comes preconfigured to deploy the app to a handfil of different hosting providers
+  region: "us-east-1"
+  app: "d-rct"
+  env: "Drct-env"
+  bucket_name: "elasticbeanstalk-us-east-1-249206027754"
+  bucket_path: "d-rct"
+  on:
+    branch: main # this means that only when we push to the main branch, that is the time to deploy
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY"
+
+
+# access key will come from the local environment configuration
+
+# when travis decides to deploy out code base it is going to take all of the file inside of the git hub repository and it is going to zip them all up into one single file and will copy them to an s3 bucket (a hard drive runing on aws). this file will be used by elastic beanstalk to deploy the application 
+
 
 # travis will be watching the output of each of the script commands and if for each command it gets a return status code other than zero, travis will assume that our build failed 
 

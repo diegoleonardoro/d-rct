@@ -1,19 +1,8 @@
-version: "3"
+version: '3'
 services:
-  web: # name of the container
-    build:
-      context: . # specifies where we want all the files and folders for this image to be pulled from
-      dockerfile: Dockerfile.dev # specifies the file we need to build that image
-    ports:
-      - "3000:3000"
-    volumes:
-      - /app/node_modules # means to not try to map a folder up against /app/node_modules
-      - .:/app # map the current working directory outside fo the container into the app folder inside the container
-  tests: # container only responsible for running our tests 
+  web:
     build:
       context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules # this container will rerun every time any file inside of our volumes change
-      - .:/app
-    command: ["npm", "run", "test"] # ovverride the default starting command with 'npm run test'
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
