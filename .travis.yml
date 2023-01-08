@@ -1,0 +1,15 @@
+language: generic
+sudo: required # telling travis we need super user level permissions to execute this build 
+services:
+  - docker # telling travis what we need the docker cli installed
+
+before_installed: # commands executed before our tests are ran
+  - docker build -t diegoleoro/d-rct -f Dockerfile.dev . # build our docker image before our tests run
+
+script: # commands that need to be executed to actually run our test suite
+  -  docker run -e CI=true diegoleoro/d-rct npm run test
+
+
+# travis will be watching the output of each of the script commands and if for each command it gets a return status code other than zero, travis will assume that our build failed 
+
+# travis assumes that our test suite exits automatically, but this is not the default behavior of Jest, so we need to add -e CI=true
